@@ -11,7 +11,6 @@ public class GridVisualizerManager : MonoBehaviour
 	private GameObject[,] cubeObjects;
 	private GridVisualizer visualizer;
 	private Vector2Int visualCenter;
-	private int gridWidth, gridHeight;
 
 	private void Awake()
 	{
@@ -55,7 +54,10 @@ public class GridVisualizerManager : MonoBehaviour
 		cubeObjects = GridCubeFactory.CreateCubeGrid(transform, gridParameters);
 
 		visualizer = new GridVisualizer(materials, gridParameters, gridData, cubeObjects);
-		visualCenter = new Vector2Int(UnityEngine.Random.Range(0, gridWidth), UnityEngine.Random.Range(0, gridHeight));
+		var x = UnityEngine.Random.Range(0, gridData.Width);
+		var y = UnityEngine.Random.Range(0, gridData.Height);
+		visualCenter = new Vector2Int(x, y);
+		Debug.Log($"Start position at: {visualCenter}");
 		
 		visualizer.UpdatePosition();
 		visualizer.UpdateVisualization(visualCenter);

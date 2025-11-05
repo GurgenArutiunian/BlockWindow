@@ -1,8 +1,8 @@
 public class GridData
 {
 	private int[,] Data { get; }
-	private int Width { get; }
-	private int Height { get; }
+	public int Width { get; }
+	public int Height { get; }
 
 	public GridData(int[,] data, int width, int height)
 	{
