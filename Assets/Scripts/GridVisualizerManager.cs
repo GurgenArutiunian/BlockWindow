@@ -6,12 +6,30 @@ public class GridVisualizerManager : MonoBehaviour
 {
 	[SerializeField] private GridSettings gridParameters;
 
+	private GridInputActions inputHandler;
 	private GridData gridData;
 	private GameObject[,] cubeObjects;
 	private GridVisualizer visualizer;
 	private Vector2Int visualCenter;
 	private int gridWidth, gridHeight;
 
+	private void Awake()
+	{
+		inputHandler = gameObject.AddComponent<GridInputActions>();
+	}
+
+	private void OnEnable()
+	{
+		inputHandler.OnMove += MoveWindow;
+		inputHandler.OnReload += ReloadGrid;
+	}
+
+	private void OnDisable()
+	{
+		inputHandler.OnMove -= MoveWindow;
+		inputHandler.OnReload -= ReloadGrid;
+	}
+	
 	private void Start()
 	{
 		LoadGridAndInitialize();
@@ -37,20 +55,20 @@ public class GridVisualizerManager : MonoBehaviour
 		cubeObjects = GridCubeFactory.CreateCubeGrid(transform, gridParameters);
 
 		visualizer = new GridVisualizer(materials, gridParameters, gridData, cubeObjects);
-		visualCenter = new Vector2Int(gridWidth / 2, gridHeight / 2);
+		visualCenter = new Vector2Int(UnityEngine.Random.Range(0, gridWidth), UnityEngine.Random.Range(0, gridHeight));
 		
 		visualizer.UpdatePosition();
 		visualizer.UpdateVisualization(visualCenter);
 	}
 
-	public void MoveWindow(Vector2Int direction)
+	private void MoveWindow(Vector2Int direction)
 	{
 		visualCenter.x += direction.x;
 		visualCenter.y += direction.y;
 		visualizer.UpdateVisualization(visualCenter);
 	}
 
-	public void ReloadGrid()
+	private void ReloadGrid()
 	{
 		Debug.Log("Reloading grid...");
 		foreach (Transform child in transform)

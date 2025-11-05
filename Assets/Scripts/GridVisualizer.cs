@@ -29,7 +29,7 @@ public class GridVisualizer
 			for (var localX = 0; localX < windowSize; localX++)
 			{
 				var cube = cubeObjects[localX, localY];
-				cube.transform.localPosition = new Vector3((localX - halfWindow) * cubeSpacing, 0, (localY - halfWindow) * cubeSpacing);
+				cube.transform.localPosition = new Vector3((localX - halfWindow) * cubeSpacing, 0, (localY + halfWindow) * cubeSpacing);
 			}
 		}
 	}
